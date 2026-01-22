@@ -12,9 +12,9 @@ use Test::More;
 
 use StateTable::Tiny;
 
-my $C = StateTable::Tiny->new();
-ok $C,     'new returned something';
-ok ref $C, 'new returned a reference';
-is ref $C, 'StateTable::Tiny', 'new returned an STT object';
+my $stt = StateTable::Tiny->new();
+ok $stt,     'new returned something';
+ok ref $stt, 'new returned a reference';
+is ref $stt, 'StateTable::Tiny', 'new returned an STT object';
 
 done_testing;
