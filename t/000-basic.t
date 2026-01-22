@@ -5,8 +5,11 @@ use 5.10.1;
 use strict;
 use warnings;
 
-use FindBin;
-use lib "$FindBin::Bin/../lib";
+BEGIN {
+    if ($ENV{INSIDE_EMACS}) {
+        eval q(use FindBin '$Bin'; use lib "$Bin/../lib"; 1) or die 'I died';
+    }
+}
 
 use Test::More;
 
