@@ -25,13 +25,30 @@ use warnings;
 
 =head2 new
 
-    $counter = StateTable::Tiny->new( XXX )
+    my $stt = StateTable::Tiny->new()
+
+XXX
 
 =cut
 
+our %FIELDS = (
+    references => 'HASH',
+    rules      => 'HASH',
+);
+our @FIELDS = keys %FIELDS;
+for (@FIELDS) {
+    eval qq[sub $_ { \$_[0]->{$_} }; 1] or die;
+}
+
 sub new {
+    croak 'new() expected' unless @_ == 1;
     my ($class, %args) = @_;
-    return bless {}, $class;
+
+    my %obj = map { $_ => $FIELDS{$_} eq 'HASH'   ? {} :
+                          $FIELDS{$_} eq 'ARRAY'  ? [] :
+                          $FIELDS{$_} eq 'SCALAR' ? undef : die } @FIELDS;
+
+    return bless \%obj, $class;
 }
 
 =head1 METHODS
