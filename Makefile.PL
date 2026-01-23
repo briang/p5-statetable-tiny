@@ -32,7 +32,6 @@ my %WriteMakefileArgs = (
     },
 
     TEST_REQUIRES      => { # needed to run `make test` or `prove -l`
-        'Test::Exception' => 0,
         'Test::More'      => '0.22',
     },
 
