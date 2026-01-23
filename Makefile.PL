@@ -36,10 +36,7 @@ my %WriteMakefileArgs = (
     },
 
     PREREQ_PM => { # needed to `use` the module
-        'Exporter' => 0,
-        'parent'   => 0,
-        'strict'   => 0,
-        'warnings' => 0,
+        'Carp'     => 0,
     },
 
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
