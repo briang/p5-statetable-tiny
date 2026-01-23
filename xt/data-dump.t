@@ -22,7 +22,7 @@ for my $perl_file ( map { Cwd::abs_path($_) } sort @perl_files ) {
         or die qq(cannot read "$perl_file": $!);
 
     while (<$IN>) {
-        if ( /$data_dump/ ) {
+        if ( /$data_dump/ && ! /#.*$data_dump/ ) {
             diag "$data_dump found in"
                 if $ok;
             diag "  $perl_file";
