@@ -22,8 +22,9 @@ ok     $stt, 'new returned something';
 ok ref $stt, 'new returned a reference';
 is ref $stt, 'StateTable::Tiny', 'new returned an STT object';
 
-for my $method (@StateTable::Tiny::FIELDS) {
-    my $type = $StateTable::Tiny::FIELDS{$method};
+my %fields = %StateTable::Tiny::FIELDS;
+for my $method (keys %fields) {
+    my $type = $fields{$method};
     is ref $stt->can($method), 'CODE', qq[STT has a "$method" method];
     is ref $stt->$method, $type, qq[$method() returns a $type];
 }
