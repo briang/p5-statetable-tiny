@@ -17,6 +17,9 @@ use 5.10.1;
 use strict;
 use warnings;
 
+use Carp 'croak';
+# use Data::Dump; # XXX
+
 =head1 SYNOPSIS
 
 =head1 DESCRIPTION
@@ -53,15 +56,38 @@ sub new {
 
 =head1 METHODS
 
-=head2 method
+=head2 add
 
-    $stt->method()
+    $stt->add(NODE, CONDITION, NEXT_NODE)
 
-XXX blah
+XXX
 
 =cut
 
-sub method {
+sub add {
+    croak 'add(NODE, CONDITION, NEXT_NODE) expected' unless @_ == 4;
+    my ($self, $node, $condition, $next_node) = @_;
+
+    $condition = eval qq(sub { \$_[0] eq '$condition' });
+
+    $self->rules->{$node} = [ $condition, $next_node ];
+    $self->references->{$next_node} = ();
+}
+
+=head2 nodes
+
+    my $aref = $stt->nodes()
+
+XXX
+
+=cut
+
+sub nodes {
+    croak 'nodes() expected' unless @_ == 1;
+    my ($self) = @_;
+
+    my @rv = sort keys %{ $self->rules };
+    return @rv;
 }
 
 =head1 AUTHOR, COPYRIGHT AND LICENSE

@@ -5,6 +5,8 @@ use 5.10.1;
 use strict;
 use warnings;
 
+# use Data::Dump; # XXX
+
 BEGIN {
     if ($ENV{INSIDE_EMACS}) {
         eval q(use FindBin '$Bin'; use lib "$Bin/../lib"; 1) or die 'I died';
@@ -12,8 +14,6 @@ BEGIN {
 }
 
 use Test::More;
-
-use Data::Dump; # XXX
 
 use StateTable::Tiny;
 
