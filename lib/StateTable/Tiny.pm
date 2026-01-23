@@ -76,7 +76,7 @@ sub add {
 
 =head2 nodes
 
-    my $aref = $stt->nodes()
+    my @nodes = $stt->nodes()
 
 XXX
 
@@ -89,6 +89,18 @@ sub nodes {
     my @rv = sort keys %{ $self->rules };
     return @rv;
 }
+
+=head2 references
+
+    my $nodes_href = $stt->references()
+
+XXX
+
+=head2 rules
+
+    my $rules_href = $stt->rules()
+
+XXX
 
 =head1 AUTHOR, COPYRIGHT AND LICENSE
 
