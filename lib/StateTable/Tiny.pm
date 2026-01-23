@@ -35,8 +35,8 @@ XXX
 =cut
 
 our %FIELDS = (
-    references => 'HASH',
-    rules      => 'HASH',
+    referenced_nodes => 'HASH',
+    rules            => 'HASH',
 );
 our @FIELDS = keys %FIELDS;
 for (@FIELDS) {
@@ -47,9 +47,10 @@ sub new {
     croak 'new() expected' unless @_ == 1;
     my ($class, %args) = @_;
 
-    my %obj = map { $_ => $FIELDS{$_} eq 'HASH'   ? {} :
-                          $FIELDS{$_} eq 'ARRAY'  ? [] :
-                          $FIELDS{$_} eq 'SCALAR' ? undef : die } @FIELDS;
+    my %obj = map { $_ =>
+                        ($FIELDS{$_} eq 'HASH')   ? {} :
+                        ($FIELDS{$_} eq 'ARRAY')  ? [] :
+                        ($FIELDS{$_} eq 'SCALAR') ? undef : die } @FIELDS;
 
     return bless \%obj, $class;
 }
@@ -71,7 +72,7 @@ sub add {
     $condition = eval qq(sub { \$_[0] eq '$condition' });
 
     $self->rules->{$node} = [ $condition, $next_node ];
-    $self->references->{$next_node} = ();
+    $self->referenced_nodes->{$next_node} = ();
 }
 
 =head2 nodes
@@ -90,9 +91,9 @@ sub nodes {
     return @rv;
 }
 
-=head2 references
+=head2 referenced_nodes
 
-    my $nodes_href = $stt->references()
+    my $nodes_href = $stt->referenced_nodes()
 
 XXX
 
