@@ -35,6 +35,7 @@ XXX
 =cut
 
 our %FIELDS = (
+    defined_nodes    => 'HASH',
     referenced_nodes => 'HASH',
     rules            => 'HASH',
 );
@@ -72,7 +73,32 @@ sub add {
     $condition = eval qq(sub { \$_[0] eq '$condition' });
 
     $self->rules->{$node} = [ $condition, $next_node ];
+    $self->defined_nodes->{$node} = ();
     $self->referenced_nodes->{$next_node} = ();
+}
+
+=head2 defined_nodes
+
+    my $nodes_href = $stt->defined_nodes()
+
+XXX
+
+=head2 is_valid
+
+    my $validity = $stt->is_valid()
+
+XXX
+
+=cut
+
+sub is_valid { # XXX simplistic version needs more work
+    croak 'is_valid() expected' unless @_ == 1;
+    my ($self) = @_;
+
+    my @dn = sort keys %{ $self->defined_nodes };
+    my @rn = sort keys %{ $self->referenced_nodes };
+
+    return @dn == @rn ? 1 : 0;
 }
 
 =head2 nodes
