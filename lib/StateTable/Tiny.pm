@@ -35,8 +35,8 @@ XXX
 =cut
 
 our %FIELDS = (
-    defined_nodes    => 'HASH',
-    referenced_nodes => 'HASH',
+    defined_states    => 'HASH',
+    referenced_states => 'HASH',
     rules            => 'HASH',
 );
 our @FIELDS = keys %FIELDS;
@@ -60,26 +60,26 @@ sub new {
 
 =head2 add
 
-    $stt->add(NODE, CONDITION, NEXT_NODE)
+    $stt->add(STATE, CONDITION, NEXT_STATE)
 
 XXX
 
 =cut
 
 sub add {
-    croak 'add(NODE, CONDITION, NEXT_NODE) expected' unless @_ == 4;
-    my ($self, $node, $condition, $next_node) = @_;
+    croak 'add(STATE, CONDITION, NEXT_STATE) expected' unless @_ == 4;
+    my ($self, $state, $condition, $next_state) = @_;
 
     $condition = eval qq(sub { \$_[0] eq '$condition' });
 
-    $self->rules->{$node} = [ $condition, $next_node ];
-    $self->defined_nodes->{$node} = ();
-    $self->referenced_nodes->{$next_node} = ();
+    $self->rules->{$state} = [ $condition, $next_state ];
+    $self->defined_states->{$state} = ();
+    $self->referenced_states->{$next_state} = ();
 }
 
-=head2 defined_nodes
+=head2 defined_states
 
-    my $nodes_href = $stt->defined_nodes()
+    my $states_href = $stt->defined_states()
 
 XXX
 
@@ -95,31 +95,31 @@ sub is_valid { # XXX simplistic version needs more work
     croak 'is_valid() expected' unless @_ == 1;
     my ($self) = @_;
 
-    my @dn = sort keys %{ $self->defined_nodes };
-    my @rn = sort keys %{ $self->referenced_nodes };
+    my @dn = sort keys %{ $self->defined_states };
+    my @rn = sort keys %{ $self->referenced_states };
 
     return @dn == @rn ? 1 : 0;
 }
 
-=head2 nodes
+=head2 states
 
-    my @nodes = $stt->nodes()
+    my @states = $stt->states()
 
 XXX
 
 =cut
 
-sub nodes {
-    croak 'nodes() expected' unless @_ == 1;
+sub states {
+    croak 'states() expected' unless @_ == 1;
     my ($self) = @_;
 
     my @rv = sort keys %{ $self->rules };
     return @rv;
 }
 
-=head2 referenced_nodes
+=head2 referenced_states
 
-    my $nodes_href = $stt->referenced_nodes()
+    my $states_href = $stt->referenced_states()
 
 XXX
 
