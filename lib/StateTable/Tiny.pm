@@ -35,9 +35,10 @@ XXX
 =cut
 
 our %FIELDS = (
+    _current_state    => 'SCALAR',
     defined_states    => 'HASH',
     referenced_states => 'HASH',
-    rules            => 'HASH',
+    rules             => 'HASH', # HoA
 );
 our @FIELDS = keys %FIELDS;
 for (@FIELDS) {
@@ -72,9 +73,10 @@ sub add {
 
     $condition = eval qq(sub { \$_[0] eq '$condition' });
 
-    $self->rules->{$state} = [ $condition, $next_state ];
-    $self->defined_states->{$state} = ();
-    $self->referenced_states->{$next_state} = ();
+    push @{ $self->rules->{$state} },  [ $condition, $next_state ];
+
+    $self->defined_states->{$state} = undef;
+    $self->referenced_states->{$next_state} = undef;
 }
 
 =head2 defined_states
@@ -101,6 +103,21 @@ sub is_valid { # XXX simplistic version needs more work
     return @dn == @rn ? 1 : 0;
 }
 
+=head2 set_current_state
+
+    $stt->set_current_state($STATE)
+
+XXX
+
+=cut
+
+sub set_current_state {
+    croak 'is_valid() expected' unless @_ == 2;
+    my ($self, $value) = @_;
+
+    $self->{_current_state} = $value;
+}
+
 =head2 states
 
     my @states = $stt->states()
@@ -115,6 +132,35 @@ sub states {
 
     my @rv = sort keys %{ $self->rules };
     return @rv;
+}
+
+=head2 step
+
+    $NEXT_STATE = $stt->step($INPUT)
+
+XXX
+
+=cut
+
+sub step {
+    croak 'states() expected' unless @_ == 2;
+    my ($self, $input) = @_;
+
+    my $current = $self->_current_state || 'START';
+
+    if ($current eq 'ACCEPT' or $current eq 'REJECT') {
+        $self->set_current_state(undef);
+        return undef;
+    }
+
+    for ( @{ $self->rules->{$current} } ) {
+        my ($condition, $next_state) = @$_;
+        if ($condition->($input)) {
+            $self->set_current_state($next_state);
+            return $next_state;
+        }
+    }
+    croak 'croaked';
 }
 
 =head2 referenced_states
