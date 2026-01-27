@@ -23,10 +23,17 @@ ok ref $stt, 'new returned a reference';
 is ref $stt, 'StateTable::Tiny', 'new returned an STT object';
 
 my %fields = %StateTable::Tiny::FIELDS;
-for my $method (keys %fields) {
+for my $method (sort keys %fields) { # keys returns random order
     my $type = $fields{$method};
+
     is ref $stt->can($method), 'CODE', qq[STT has a "$method" method];
-    is ref $stt->$method, $type, qq[$method() returns a $type];
+
+    if ($type eq 'SCALAR') {
+        ok ! defined $stt->$method, qq[$method() returns undef];
+    }
+    else {
+        is ref $stt->$method, $type, qq[$method() returns a $type];
+    }
 }
 
 done_testing;
