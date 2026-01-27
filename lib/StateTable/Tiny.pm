@@ -18,6 +18,11 @@ use strict;
 use warnings;
 
 use Carp 'croak';
+use constant {
+    ACCEPT => 'ACCEPT',
+    REJECT => 'REJECT',
+    START  => 'START',
+};
 # use Data::Dump; # XXX
 
 =head1 SYNOPSIS
@@ -146,9 +151,9 @@ sub step {
     croak 'states() expected' unless @_ == 2;
     my ($self, $input) = @_;
 
-    my $current = $self->_current_state || 'START';
+    my $current = $self->_current_state || START;
 
-    if ($current eq 'ACCEPT' or $current eq 'REJECT') {
+    if ($current eq ACCEPT or $current eq REJECT) {
         $self->set_current_state(undef);
         return undef;
     }
