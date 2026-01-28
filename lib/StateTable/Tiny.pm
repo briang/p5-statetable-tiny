@@ -12,7 +12,7 @@ released 2026-01-20
 
 package StateTable::Tiny v0.1.0;
 
-use 5.10.1;
+use v5.10;
 
 use strict;
 use warnings;
