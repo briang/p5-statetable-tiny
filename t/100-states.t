@@ -20,20 +20,20 @@ subtest recognise_states => sub {
 
     my $stt = StateTable::Tiny->new();
 
-    $stt->add('START', 0, 'START');
-    is_deeply [$stt->states], ['START'], 'START state added';
+    $stt->add($stt->START, 0, $stt->START);
+    is_deeply [$stt->states], [$stt->START], 'START state added';
     ok $stt->is_valid(), "START is properly defined and referenced";
 
-    $stt->add('START', 1, 'N1');
-    is_deeply [$stt->states], ['START'], 'add condition for START->N2';
+    $stt->add($stt->START, 1, 'N1');
+    is_deeply [$stt->states], [$stt->START], 'add condition for START->N2';
     ok ! $stt->is_valid(), "N1 state is not defined";
 
     $stt->add('N1', 0, 'N10');
-    is_deeply [$stt->states], [qw/N1 START/], 'state N1 added';
+    is_deeply [$stt->states], ['N1', $stt->START], 'state N1 added';
     ok ! $stt->is_valid(), 'N10 state is not defined';
 
-    $stt->add('N10', 1, 'START');
-    is_deeply [$stt->states], [qw/N1 N10 START/], 'state N10 added';
+    $stt->add('N10', 1, $stt->START);
+    is_deeply [$stt->states], [qw/N1 N10/, $stt->START], 'state N10 added';
     ok $stt->is_valid(), 'network is properly defined & referenced';
 };
 
