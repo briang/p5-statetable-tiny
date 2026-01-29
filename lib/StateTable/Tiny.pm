@@ -165,7 +165,7 @@ sub step {
             return $next_state;
         }
     }
-    croak 'croaked';
+    return undef; # no rule for input in current state
 }
 
 =head2 referenced_states
