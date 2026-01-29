@@ -40,7 +40,7 @@ XXX
 =cut
 
 our %FIELDS = (
-    _current_state    => 'SCALAR',
+    state             => 'SCALAR',
     defined_states    => 'HASH',
     referenced_states => 'HASH',
     rules             => 'HASH', # HoA
@@ -108,20 +108,26 @@ sub is_valid { # XXX simplistic version needs more work
     return @dn == @rn ? 1 : 0;
 }
 
-=head2 set_current_state
+=head2 set_state
 
-    $stt->set_current_state($STATE)
+    $stt->set_state($STATE)
 
 XXX
 
 =cut
 
-sub set_current_state {
+sub set_state {
     croak 'is_valid() expected' unless @_ == 2;
     my ($self, $value) = @_;
 
-    $self->{_current_state} = $value;
+    $self->{state} = $value;
 }
+
+=head2 state
+
+    my $STATE = $stt->state()
+
+XXX
 
 =head2 states
 
@@ -151,10 +157,10 @@ sub step {
     croak 'states() expected' unless @_ == 2;
     my ($self, $input) = @_;
 
-    my $current = $self->_current_state || START;
+    my $current = $self->state || START;
 
     if ($current eq ACCEPT or $current eq REJECT) {
-        $self->set_current_state(undef);
+        $self->set_state(undef);
         return undef;
     }
 
@@ -165,7 +171,7 @@ sub step {
             $condition->();
         };
         if ($bool) {
-            $self->set_current_state($next_state);
+            $self->set_state($next_state);
             return $next_state;
         }
     }
