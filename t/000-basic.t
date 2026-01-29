@@ -29,7 +29,12 @@ for my $method (sort keys %fields) { # keys returns random order
     is ref $stt->can($method), 'CODE', qq[STT has a "$method" method];
 
     if ($type eq 'SCALAR') {
-        ok ! defined $stt->$method, qq[$method() returns undef];
+        if ($method eq 'state') {
+            is $stt->$method, $stt->START, 'state is START as creation';
+        }
+        else {
+            ok ! defined $stt->$method, qq[$method() returns undef];
+        }
     }
     else {
         is ref $stt->$method, $type, qq[$method() returns a $type];

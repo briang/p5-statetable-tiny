@@ -59,6 +59,8 @@ sub new {
                         ($FIELDS{$_} eq 'ARRAY')  ? [] :
                         ($FIELDS{$_} eq 'SCALAR') ? undef : die } @FIELDS;
 
+    $obj{state} = START;
+
     return bless \%obj, $class;
 }
 
