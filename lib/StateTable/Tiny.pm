@@ -51,7 +51,7 @@ for (@FIELDS) {
 }
 
 sub new {
-    croak 'new() expected' unless @_ == 1;
+    croak 'new() does not accept arguments' unless @_ == 1;
     my ($class, %args) = @_;
 
     my %obj = map { $_ =>
@@ -101,7 +101,7 @@ XXX
 =cut
 
 sub is_valid { # XXX simplistic version needs more work
-    croak 'is_valid() expected' unless @_ == 1;
+    croak 'is_valid() does not accept arguments' unless @_ == 1;
     my ($self) = @_;
 
     my @dn = sort keys %{ $self->defined_states };
@@ -134,7 +134,7 @@ XXX
 =cut
 
 sub set_state {
-    croak 'is_valid() expected' unless @_ == 2;
+    croak 'set_state(NEW_STATE) expected' unless @_ == 2;
     my ($self, $value) = @_;
 
     $self->{state} = $value;
@@ -155,7 +155,7 @@ XXX
 =cut
 
 sub states {
-    croak 'states() expected' unless @_ == 1;
+    croak 'states() does not accept arguments' unless @_ == 1;
     my ($self) = @_;
 
     my @rv = sort keys %{ $self->rules };
@@ -171,7 +171,7 @@ XXX
 =cut
 
 sub step {
-    croak 'states() expected' unless @_ == 2;
+    croak 'step() does not accept arguments' unless @_ == 2;
     my ($self, $input) = @_;
 
     my $current = $self->state || START;
