@@ -110,6 +110,21 @@ sub is_valid { # XXX simplistic version needs more work
     return @dn == @rn ? 1 : 0;
 }
 
+=head2 reset
+
+    $stt->reset()
+
+XXX
+
+=cut
+
+sub reset {
+    croak 'reset() does not accept arguments' unless @_ == 1;
+    my $self = shift;
+
+    $self->set_state(START);
+}
+
 =head2 set_state
 
     $stt->set_state($STATE)
