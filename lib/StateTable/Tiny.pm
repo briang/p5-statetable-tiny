@@ -76,7 +76,7 @@ sub add {
     croak 'add(STATE, CONDITION, NEXT_STATE) expected' unless @_ == 4;
     my ($self, $state, $condition, $next_state) = @_;
 
-    $condition = eval qq(sub { \$_[0] eq '$condition' });
+    $condition = eval qq(sub { \$_ eq '$condition' });
 
     push @{ $self->rules->{$state} },  [ $condition, $next_state ];
 
@@ -158,9 +158,13 @@ sub step {
         return undef;
     }
 
-    for ( @{ $self->rules->{$current} } ) {
-        my ($condition, $next_state) = @$_;
-        if ($condition->($input)) {
+    for my $rule ( @{ $self->rules->{$current} } ) {
+        my ($condition, $next_state) = @$rule;
+        my $bool = do {
+            local $_ = $input;
+            $condition->();
+        };
+        if ($bool) {
             $self->set_current_state($next_state);
             return $next_state;
         }
