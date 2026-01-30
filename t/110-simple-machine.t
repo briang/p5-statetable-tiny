@@ -29,10 +29,10 @@ $stt->add('S0', 0, 'S0');
 $stt->add('S0', 1, $stt->ACCEPT);
 
 # inputs are 1,1,0,0,1
-is $stt->step(1), $stt->START, '1: START';
-is $stt->step(1), $stt->START, '1: START';
-is $stt->step(0), 'S0',    '0: S0';
-is $stt->step(0), 'S0',    '0: S0';
+is $stt->step(1), $stt->START, '1: START (1st)';
+is $stt->step(1), $stt->START, '1: START (2nd)';
+is $stt->step(0), 'S0',    '0: S0 (1st)';
+is $stt->step(0), 'S0',    '0: S0 (2nd)';
 is $stt->step(1), $stt->ACCEPT, '1: ACCEPT';
 is $stt->step(1), undef, 'error, already finished';
 

@@ -30,7 +30,7 @@ for my $method (sort keys %fields) { # keys returns random order
 
     if ($type eq 'SCALAR') {
         if ($method eq 'state') {
-            is $stt->$method, $stt->START, 'state is START as creation';
+            is $stt->$method, $stt->START, 'state is START at creation';
         }
         else {
             ok ! defined $stt->$method, qq[$method() returns undef];
