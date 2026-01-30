@@ -19,9 +19,10 @@ use StateTable::Tiny;
 
 my $stt = StateTable::Tiny->new();
 
-$stt->add($stt->START, 'string',            'STRING');
-$stt->add($stt->START, qr/regex/,           'REGEX');
-$stt->add($stt->START, sub { $_ eq 'sub' }, 'CODE');
+$stt->add($stt->START, 'string',               'STRING');
+$stt->add($stt->START, qr/regex/,              'REGEX');
+$stt->add($stt->START, sub { $_ eq 'sub' },    'CODE');
+$stt->add($stt->START, sub { $_[0] eq 'sub' }, 'CODE');
 
 my $state;
 
@@ -35,6 +36,10 @@ is $state, 'REGEX', 'regex match working';
 
 $stt->reset;
 $state = $stt->step('sub');
-is $state, 'CODE', 'subref match working';
+is $state, 'CODE', 'subref match working (using $_)';
+
+$stt->reset;
+$state = $stt->step('sub');
+is $state, 'CODE', 'subref match working (using @_)';
 
 done_testing;

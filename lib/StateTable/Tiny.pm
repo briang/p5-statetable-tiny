@@ -195,7 +195,7 @@ sub step {
         my ($condition, $next_state) = @$rule;
         my $bool = do {
             local $_ = $input;
-            $condition->();
+            $condition->($input);
         };
         if ($bool) {
             $self->set_state($next_state);
