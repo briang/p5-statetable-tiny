@@ -78,7 +78,17 @@ sub add {
     croak 'add(STATE, CONDITION, NEXT_STATE) expected' unless @_ == 4;
     my ($self, $state, $condition, $next_state) = @_;
 
-    $condition = eval qq(sub { \$_ eq '$condition' });
+    my $type = ref $condition;
+    if ($type eq '') {
+        $condition = eval qq(sub { \$_ eq '$condition' });
+    }
+    elsif ($type eq 'Regexp') {
+        $condition = eval qq(sub { /$condition/ });
+    }
+    elsif ($type ne 'CODE') {
+        croak 'unknown condition type: "$type"';
+    }
+    # CODE doesn't need to be changed
 
     push @{ $self->rules->{$state} },  [ $condition, $next_state ];
 
