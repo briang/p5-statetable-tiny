@@ -40,6 +40,7 @@ subtest basic => sub {
         }
     }
 
+    done_testing;
 };
 
 subtest recognise_states => sub {
@@ -60,6 +61,8 @@ subtest recognise_states => sub {
     $stt->add('N10', 1, $stt->START);
     is_deeply [$stt->states], [qw/N1 N10/, $stt->START], 'state N10 added';
     ok $stt->is_valid(), 'network is properly defined & referenced';
+
+    done_testing;
 };
 
 subtest simple_machine => sub {
@@ -81,6 +84,8 @@ subtest simple_machine => sub {
     is $stt->step(0), 'S0',    '0: S0 (2nd)';
     is $stt->step(1), $stt->ACCEPT, '1: ACCEPT';
     is $stt->step(1), undef, 'error, already finished';
+
+    done_testing;
 };
 
 subtest invalid_input => sub {
@@ -90,6 +95,8 @@ subtest invalid_input => sub {
     $stt->add($stt->START, 1, $stt->START);
 
     is $stt->step(999), undef, 'current state has no rule for input';
+
+    done_testing;
 };
 
 subtest topic_variable => sub {
@@ -102,6 +109,8 @@ subtest topic_variable => sub {
     my $state = $stt->step(0);
     is $state, 'S0', 'transition to S0';
     is $_, 'hi', 'topic variable is unchanged';
+
+    done_testing;
 };
 
 subtest reset => sub {
@@ -115,6 +124,8 @@ subtest reset => sub {
 
     $stt->reset;
     is $stt->state, $stt->START, 'resets back to START';
+
+    done_testing;
 };
 
 subtest conditions => sub {
@@ -142,6 +153,8 @@ subtest conditions => sub {
     $stt->reset;
     $state = $stt->step('sub');
     is $state, 'CODE', 'subref match working (using @_)';
+
+    done_testing;
 };
 
 done_testing;

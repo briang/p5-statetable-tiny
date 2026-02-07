@@ -8,7 +8,7 @@ use ExtUtils::MakeMaker 6.48; # MIN_PERL_VERSION
 
 my $module        = 'StateTable::Tiny';
 my $github_prefix = 'p5-';
-my $min_perl      = '5.14.0';
+my $min_perl      = '5.10.0';
 
 (my $path_to_main = "lib/$module.pm") =~ s|::|/|g; # lib/BRIANG/Dist/Perfect.pm
 (my $dist_name    = $module) =~ s/::/-/g;          # BRIANG-Dist-Perfect

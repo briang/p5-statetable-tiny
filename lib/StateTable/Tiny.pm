@@ -1,3 +1,5 @@
+package StateTable::Tiny;
+
 =head1 NAME
 
 StateTable::Tiny - State tables for Perl using core modules only
@@ -5,12 +7,12 @@ StateTable::Tiny - State tables for Perl using core modules only
 =head1 VERSION
 
 This is
-version v0.0.1
+version 0.001
 released 2026-01-20
 
 =cut
 
-package StateTable::Tiny v0.1.0;
+our $VERSION = '0.001';
 
 use v5.10;
 
